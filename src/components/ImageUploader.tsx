@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
+import LatexRenderer from './LatexRenderer'
 
 interface Answer {
   status: "success" | "error"
@@ -162,7 +163,7 @@ const ImageUploader = () => {
           <div className={`p-4 rounded-lg mt-2 ${
             answer.status === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
           }`}>
-            {answer.answer}
+            <LatexRenderer content={answer.answer} />
           </div>
         </div>
       )}
