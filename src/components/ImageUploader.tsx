@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import LatexRenderer from './LatexRenderer'
+import LoadingBlock from './LoadingBlock'
 
 interface Answer {
   status: "success" | "error"
@@ -18,6 +19,10 @@ const ImageUploader = () => {
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
+      // Clear previous answer and set loading state
+      setAnswer(null)
+      setLoading(true)
+      
       const reader = new FileReader()
       reader.onloadend = () => {
         setSelectedImage(reader.result as string)
@@ -34,6 +39,8 @@ const ImageUploader = () => {
         videoRef.current.srcObject = stream
       }
       setShowCamera(true)
+      // Clear previous answer when camera is started
+      setAnswer(null)
     } catch (error) {
       console.error('Error accessing camera:', error)
     }
@@ -41,6 +48,10 @@ const ImageUploader = () => {
 
   const captureImage = async () => {
     if (videoRef.current) {
+      // Clear previous answer and set loading state
+      setAnswer(null)
+      setLoading(true)
+
       const canvas = document.createElement('canvas')
       canvas.width = videoRef.current.videoWidth
       canvas.height = videoRef.current.videoHeight
@@ -86,7 +97,20 @@ const ImageUploader = () => {
           'Content-Type': 'multipart/form-data',
         },
       })
-      setAnswer(response.data)
+    
+      // preprocess output to update latex rendering
+      let tempAnswer = response.data;
+      console.log(tempAnswer);
+      if (tempAnswer.answer) {  
+        tempAnswer.answer = tempAnswer.answer.replace(/\$/g, '$$');
+        tempAnswer.answer = tempAnswer.answer.replace(/\[/g, '$$');
+        tempAnswer.answer = tempAnswer.answer.replace(/\]/g, '$$');
+      
+      } else {
+        tempAnswer = { status: 'error', answer: 'No answer found. Please try again.' }
+      }
+      console.log(tempAnswer);
+      setAnswer(tempAnswer);
     } catch (error) {
       console.error('Error uploading image:', error)
       setAnswer({ status: 'error', answer: 'Failed to process the image. Please try again.' })
@@ -151,11 +175,7 @@ const ImageUploader = () => {
         </div>
       )}
 
-      {loading && (
-        <div className="mt-4 text-center text-gray-600">
-          Processing image...
-        </div>
-      )}
+      {loading && <LoadingBlock />}
 
       {answer && (
         <div className="mt-4">
