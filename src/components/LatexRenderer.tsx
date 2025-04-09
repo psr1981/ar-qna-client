@@ -35,7 +35,38 @@ const katexOptions = {
   },
 };
 
+// Helper function to convert backslash-enclosed LaTeX to $$ format
+const convertLaTeXFormat = (content: string): string => {
+  // Handle display math (block-level equations)
+  let processed = content.replace(/(\\\[)(.*?)(\\\])/gs, '$$$2$$');
+  
+  // Handle inline math
+  processed = processed.replace(/(\\\()(.*?)(\\\))/gs, '$$$2$$');
+  
+  // Handle single backslash commands that should be display math
+  const displayMathCommands = [
+    '\\begin{equation}',
+    '\\begin{align}',
+    '\\begin{gather}',
+    '\\begin{multline}',
+    '\\begin{flalign}',
+    '\\begin{alignat}',
+    '\\begin{math}',
+    '\\begin{displaymath}',
+  ];
+  
+  displayMathCommands.forEach(cmd => {
+    const endCmd = cmd.replace('begin', 'end');
+    const regex = new RegExp(`(${cmd})(.*?)(${endCmd})`, 'gs');
+    processed = processed.replace(regex, '$$$2$$');
+  });
+  
+  return processed;
+};
+
 const LatexRenderer: React.FC<LatexRendererProps> = ({ content }) => {
+  const processedContent = convertLaTeXFormat(content);
+  
   const components: Components = {
     // Customize heading styles
     h1: ({ children, ...props }: MarkdownComponentProps) => (
@@ -87,7 +118,7 @@ const LatexRenderer: React.FC<LatexRendererProps> = ({ content }) => {
         rehypePlugins={[[rehypeKatex, katexOptions]]}
         components={components}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   );
