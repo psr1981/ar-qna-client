@@ -1,6 +1,7 @@
 # AR Q&A Client
 
 A React and Three.js based mobile-compatible web application for uploading question images and getting answers.
+new comment
 
 ## Features
 
@@ -20,7 +21,7 @@ A React and Three.js based mobile-compatible web application for uploading quest
 1. Install dependencies:
 ```bash
 npm install
-# or and 
+# or  
 yarn
 ```
 
