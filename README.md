@@ -20,7 +20,7 @@ A React and Three.js based mobile-compatible web application for uploading quest
 1. Install dependencies:
 ```bash
 npm install
-# or
+# or and 
 yarn
 ```
 
