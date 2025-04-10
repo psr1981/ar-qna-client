@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
-import LatexRenderer from './LatexRenderer'
+import ResponseRenderer from './ResponseRenderer'
 import LoadingBlock from './LoadingBlock'
 
 interface Answer {
   status: "success" | "error"
   answer: string
+  diagram?: string
 }
 
 const ImageUploader = () => {
@@ -97,20 +98,9 @@ const ImageUploader = () => {
           'Content-Type': 'multipart/form-data',
         },
       })
-    
-      // preprocess output to update latex rendering
-      let tempAnswer = response.data;
-      console.log(tempAnswer);
-      if (tempAnswer.answer) {  
-        tempAnswer.answer = tempAnswer.answer.replace(/\$/g, '$$');
-        tempAnswer.answer = tempAnswer.answer.replace(/\[/g, '$$');
-        tempAnswer.answer = tempAnswer.answer.replace(/\]/g, '$$');
-      
-      } else {
-        tempAnswer = { status: 'error', answer: 'No answer found. Please try again.' }
-      }
-      console.log(tempAnswer);
-      setAnswer(tempAnswer);
+
+      console.log(response.data)// preprocess output to update latex renderi
+      setAnswer(response.data)
     } catch (error) {
       console.error('Error uploading image:', error)
       setAnswer({ status: 'error', answer: 'Failed to process the image. Please try again.' })
@@ -183,7 +173,7 @@ const ImageUploader = () => {
           <div className={`p-4 rounded-lg mt-2 ${
             answer.status === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
           }`}>
-            <LatexRenderer content={answer.answer} />
+            <ResponseRenderer data={answer} />
           </div>
         </div>
       )}
