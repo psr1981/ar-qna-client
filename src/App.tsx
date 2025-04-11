@@ -16,7 +16,7 @@ function App() {
           </mesh>
         </Canvas>
       </div>
-      <div className="relative z-10 w-full max-w-md mx-auto pt-8 px-4">
+      <div className="relative z-10 w-full mx-auto pt-8 px-4 md:w-1/2">
         <ImageUploader />
       </div>
     </div>

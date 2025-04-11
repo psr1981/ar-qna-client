@@ -14,7 +14,7 @@ const SVGRenderer: React.FC<SVGRendererProps> = ({ svgContent }) => {
   }, [svgContent]);
 
   return (
-    <div className="svg-container my-4 overflow-auto flex justify-center">
+    <div className="svg-container my-4 overflow-auto">
       <div ref={containerRef} className="max-w-full" />
     </div>
   );

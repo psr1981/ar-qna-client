@@ -21,6 +21,26 @@ body {
   width: 100%;
 }
 
+/* SVG container styles */
+.svg-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.svg-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* For mobile devices */
+@media (max-width: 640px) {
+  .svg-container {
+    max-width: 95%;
+  }
+}
+
 /* LaTeX content styles */
 .latex-content {
   font-size: 1rem;
@@ -90,5 +110,9 @@ body {
 
   .latex-content .katex {
     font-size: 0.95em;
+  }
+  
+  .latex-content {
+    font-size: 0.95rem;
   }
 } 

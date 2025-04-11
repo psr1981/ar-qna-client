@@ -98,8 +98,6 @@ const ImageUploader = () => {
           'Content-Type': 'multipart/form-data',
         },
       })
-
-      console.log(response.data)// preprocess output to update latex renderi
       setAnswer(response.data)
     } catch (error) {
       console.error('Error uploading image:', error)
@@ -110,8 +108,8 @@ const ImageUploader = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">Question Image Upload</h2>
+    <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 w-full">
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Question Image Upload</h2>
       
       {showCamera ? (
         <div className="relative">
@@ -130,16 +128,16 @@ const ImageUploader = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-3 md:gap-4">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              className="bg-blue-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-blue-600 text-sm md:text-base"
             >
               Choose File
             </button>
             <button
               onClick={startCamera}
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              className="bg-green-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg hover:bg-green-600 text-sm md:text-base"
             >
               Take Photo
             </button>
@@ -169,8 +167,8 @@ const ImageUploader = () => {
 
       {answer && (
         <div className="mt-4">
-          <h3 className="font-semibold text-lg">Answer:</h3>
-          <div className={`p-4 rounded-lg mt-2 ${
+          <h3 className="font-semibold text-base md:text-lg">Answer:</h3>
+          <div className={`p-3 md:p-4 rounded-lg mt-2 ${
             answer.status === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
           }`}>
             <ResponseRenderer data={answer} />
