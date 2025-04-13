@@ -109,7 +109,7 @@ const ImageUploader = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 w-full">
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Question Image Upload</h2>
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Multimodal QnA Agent</h2>
       
       {showCamera ? (
         <div className="relative">
