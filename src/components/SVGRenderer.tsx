@@ -315,8 +315,8 @@ const SVGIn3D = ({ svgContent, extrusion = 2 }: { svgContent: string; extrusion?
           setScaleVal(newScale);
           console.log("Setting scale to:", newScale, "for model size:", maxDim);
           
-          // Position camera - IMPROVED POSITIONING with 3x distance
-          const distance = 90; // Increased from 30 to 90 (3x farther)
+          // Position camera - IMPROVED POSITIONING with 6x distance
+          const distance = 180; // Increased from 90 to 180 (additional 2x, total 6x)
           camera.position.set(0, 0, distance);
           camera.lookAt(0, 0, 0);
           
@@ -368,9 +368,9 @@ const SVGIn3D = ({ svgContent, extrusion = 2 }: { svgContent: string; extrusion?
         
         svgGroup.current.add(mesh);
         
-        // Set scale and camera with 3x distance
+        // Set scale and camera with 6x distance
         setScaleVal(0.2);
-        camera.position.set(0, 0, 75); // Increased from 25 to 75 (3x farther)
+        camera.position.set(0, 0, 150); // Increased from 75 to 150 (additional 2x, total 6x)
         camera.lookAt(0, 0, 0);
         
         setDebugInfo(prev => prev + "\nCreated fallback 3D shape");
@@ -467,7 +467,7 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
   const [isGeneratingQR, setIsGeneratingQR] = useState(false);
   const [debugInfo, setDebugInfo] = useState<string | null>(null);
   const [isModelVisible, setIsModelVisible] = useState(false);
-  const [modelScale, setModelScale] = useState(0.002); // Even smaller default scale value (reduced from 0.005)
+  const [modelScale, setModelScale] = useState(0.001); // Even smaller default scale value (reduced from 0.002)
   
   const capabilities = useDeviceCapabilities();
   const canvasRef = useRef<any>(null);
@@ -563,9 +563,9 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
           </div>
           <input
             type="range"
-            min="0.001"
-            max="0.1"
-            step="0.001"
+            min="0.0002"
+            max="0.05"
+            step="0.0001"
             value={modelScale}
             onChange={(e) => setModelScale(parseFloat(e.target.value))}
             className="w-full"
@@ -583,31 +583,31 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
           <div className="grid grid-cols-3 gap-1">
             <button 
               className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.0005)}
+              onClick={() => setModelScale(0.0002)}
             >
               XS
             </button>
             <button 
               className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.002)}
+              onClick={() => setModelScale(0.001)}
             >
               Small
             </button>
             <button 
               className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.005)}
+              onClick={() => setModelScale(0.002)}
             >
               Medium
             </button>
             <button 
               className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.01)}
+              onClick={() => setModelScale(0.005)}
             >
               Large
             </button>
             <button 
               className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.02)}
+              onClick={() => setModelScale(0.01)}
             >
               XL
             </button>
@@ -625,7 +625,7 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
           className="w-full px-2 py-1 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 rounded flex items-center justify-center"
           onClick={() => {
             // Auto-adjust scale based on model size
-            setModelScale(0.002); // Reset to a much smaller value (reduced from 0.005)
+            setModelScale(0.001); // Reset to a much smaller value (reduced from 0.002)
             setDebugInfo("Auto-adjusted model scale");
           }}
         >
@@ -765,7 +765,7 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
         ref={canvasRef}
         gl={{ antialias: true, alpha: false }}
         dpr={[1, 2]} // Responsive to screen density
-        camera={{ position: [0, 0, 300], fov: 45, near: 0.1, far: 2000 }} // Increased from 100 to 300 (3x farther)
+        camera={{ position: [0, 0, 600], fov: 45, near: 0.1, far: 4000 }} // Increased from 300 to 600 (additional 2x, total 6x)
         style={{ background: '#f8f8f8' }}
         shadows
         onCreated={(state) => {
@@ -827,7 +827,7 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
           enableZoom={true} 
           enableRotate={true}
           minDistance={5}
-          maxDistance={600} // Increased from 200 to 600 (3x farther)
+          maxDistance={1200} // Increased from 600 to 1200 (additional 2x, total 6x)
           makeDefault
         />
         
