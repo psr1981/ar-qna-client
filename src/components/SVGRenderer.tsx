@@ -516,6 +516,17 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
     return () => clearTimeout(timer);
   }, [isModelVisible]);
 
+  // Add a zoom in function to the AR3DView component
+  // Function to zoom in camera
+  const zoomInMore = () => {
+    if (canvasRef.current?.camera) {
+      const camera = canvasRef.current.camera;
+      const currentZ = camera.position.z;
+      camera.position.set(0, 0, currentZ / 1.5); // Zoom in by reducing distance
+      setDebugInfo("Camera zoomed in more");
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-black">
       <button 
@@ -577,44 +588,31 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
           </div>
         </div>
         
-        {/* Scale presets */}
+        {/* Replace the Scale Presets section with Zoom controls */}
         <div className="mb-3">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Scale Presets</label>
-          <div className="grid grid-cols-3 gap-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Camera Controls</label>
+          <div className="grid grid-cols-2 gap-1">
             <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.0002)}
+              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded flex items-center justify-center"
+              onClick={() => zoomInMore()}
             >
-              XS
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+              Zoom In
             </button>
             <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.001)}
-            >
-              Small
-            </button>
-            <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.002)}
-            >
-              Medium
-            </button>
-            <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.005)}
-            >
-              Large
-            </button>
-            <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
-              onClick={() => setModelScale(0.01)}
-            >
-              XL
-            </button>
-            <button 
-              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded"
+              className="text-xs bg-gray-100 hover:bg-gray-200 p-1 rounded flex items-center justify-center"
               onClick={() => zoomOutMore()}
             >
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
               Zoom Out
             </button>
           </div>
@@ -859,6 +857,18 @@ const AR3DView = ({ svgContent, onClose }: { svgContent: string; onClose: () => 
             <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
           </svg>
           Reset
+        </button>
+        <button 
+          onClick={zoomInMore}
+          className="px-3 py-1.5 bg-white rounded-lg shadow-lg text-sm flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+          Zoom In
         </button>
         <button 
           onClick={zoomOutMore}
